@@ -1,11 +1,12 @@
 import 'dart:io';
-
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shops_app/widgets/adaptive_button.dart';
 
 import '../constants.dart';
 import '../widgets/side_drawer.dart';
 import '../enum/authentication_type.dart';
+
 import '../utils/text_validators.dart';
 
 class MyHomePage extends StatefulWidget {
@@ -17,9 +18,7 @@ class _MyHomePageState extends State<MyHomePage> {
   TextEditingController _emailController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
   TextEditingController _confirmPasswordController = TextEditingController();
-
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-
   AuthenticationType _authenticationType = AuthenticationType.SIGN_IN;
 
   @override
@@ -35,7 +34,44 @@ class _MyHomePageState extends State<MyHomePage> {
         ],
       ),
       floatingActionButton: Platform.isIOS
-          ? null
+          ? CupertinoButton(
+              child: Icon(Icons.settings),
+              onPressed: () {
+                showCupertinoModalPopup(
+                  context: context,
+                  builder: (BuildContext context) => CupertinoActionSheet(
+                    title: const Text("Settings"),
+                    message: const Text("Which theme do you want?"),
+                    actions: <CupertinoActionSheetAction>[
+                      CupertinoActionSheetAction(
+                        child: const Text("Day theme"),
+                        onPressed: () {
+                          setState(() {});
+                          Navigator.pop(context);
+                        },
+                      ),
+                      CupertinoActionSheetAction(
+                        child: const Text("Night theme"),
+                        onPressed: () {
+                          setState(() {});
+                          Navigator.pop(context);
+                        },
+                      ),
+                      CupertinoActionSheetAction(
+                        child: const Text(
+                          "Cancel",
+                          style: TextStyle(color: Colors.red),
+                        ),
+                        onPressed: () {
+                          setState(() {});
+                          Navigator.pop(context);
+                        },
+                      )
+                    ],
+                  ),
+                );
+              },
+            )
           : FloatingActionButton(
               child: Icon(Icons.add),
             ),
